@@ -1,0 +1,85 @@
+<div class="container">   
+   <ul class="row">
+      <li class="col-lg-2 col-md-2 col-sm-3 col-xs-4">
+         <img  id="0" class="img-responsive thumbnail open-modal" src="1.JPG">
+      </li>
+      <li class="col-lg-2 col-md-2 col-sm-3 col-xs-4">
+         <img  id="1" class="img-responsive thumbnail open-modal" src="2.JPG">
+      </li>
+      <li class="col-lg-2 col-md-2 col-sm-3 col-xs-4">
+         <img  id="2" class="img-responsive thumbnail open-modal" src="3.JPG">
+      </li>
+   </ul>
+</div>
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+    var image = document.getElementById('myImg');
+    var imgUrls = new Array("1xl.JPG", "2xl.JPG", "3xl.JPG");
+    var currentId = 0;
+    var imgNumber;
+    var large;
+    
+	$('.open-modal').click(function(){
+		$('#myModal').modal('show');
+		var thisImg = $(this).attr('src');
+		imgNumber = parseInt(thisImg);
+		large = imgNumber.toString() + "xl.JPG";
+		console.log(large);
+    currentId = parseInt(this.id);
+    console.log("currentId is " + currentId);
+    //image.src = imgUrls[currentId];
+    image.src = large;
+    console.log("image.src is " + image.src);
+    var isLastItem = typeof imgUrls[currentId + 1];
+    var isFirstItem = typeof imgUrls[currentId - 1];
+    if (isLastItem == "undefined") {
+        console.log ("conditon: isLastItem is undefined(" +isLastItem+"), next button is hidden");
+        document.getElementById('nextBtn').style.display = 'none';
+    }
+    else if (isFirstItem == "undefined") {
+        console.log ("condition: isFirstIten is undefined(" +isFirstItem+"), prev button is hidden");
+        document.getElementById('prevBtn').style.display = 'none';
+    }
+    else {
+    	console.log ("error: arrType is defined(" +isFirstItem+"), both buttons are visible");
+    }
+	});
+
+  $("#myModal").on('hidden.bs.modal', function(){
+  	// reset button visibility on modal-close
+    document.getElementById('nextBtn').style.display = 'inline-block'; 
+    document.getElementById('prevBtn').style.display = 'inline-block';
+	});
+
+  $('.next-btn').click(function(){
+    currentId = currentId + 1;
+    var arrType = typeof imgUrls[currentId + 1];
+    console.log("currentId is " + currentId);
+    image.src = imgUrls[currentId];
+    if (arrType == "undefined") {
+        console.log ("currentId is ["+currentId+"] arrType is undefined(" +arrType+") prev is hidden");
+        document.getElementById('nextBtn').style.display = 'none';
+    }
+    else {
+        console.log ("currentId is ["+currentId+"]arrType is defined(" +arrType+") prev is visible");
+        document.getElementById('prevBtn').style.display = 'inline-block';
+    }
+	});
+    $('.prev-btn').click(function(){
+    currentId = currentId - 1;
+    var arrType = typeof imgUrls[currentId - 1];
+    console.log("currentId is " + currentId);
+    image.src = imgUrls[currentId];
+    if (arrType == "undefined") {
+        console.log ("currentId is ["+currentId+"] arrType is undefined(" +arrType+") prev is hidden");
+        document.getElementById('prevBtn').style.display = 'none';
+    }
+    else {
+        console.log ("currentId is ["+currentId+"]arrType is defined(" +arrType+") prev is visible");
+        document.getElementById('nextBtn').style.display = 'inline-block';
+    }
+	});
+});
+</script>
